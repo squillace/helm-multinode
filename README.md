@@ -7,8 +7,10 @@ At the moment, most cluster provisioning tools are creating clusters that by def
 
 
 AKS is rbac'd by default
-	rules for helm must be done first
-	k apply tiller-rbac.yaml for the helm version you're using
+	rules for helm must be done first:
+	- `kubectl -n kube-system create serviceaccount tiller`
+    - `kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller`
+    - `helm init --service-account=tiller --node-selectors beta.kubernetes.io/os=linux` OR `k apply -f tiller-rbac.yaml` for the helm version you're using
 	helm version to test installation
 	`kubectl get no -l beta.kubernetes.io/os=windows -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | xargs -I {} kubectl taint nodes {} windows=true:NoSchedule` will taint all Windows nodes at once.
 	`k taint nodes <windows node name> os=windows:NoSchedule` to each windows node
