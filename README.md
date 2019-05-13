@@ -60,7 +60,7 @@ Then, to install Tiller only on a Linux node, use the following command:
 
 	helm init --service-account=tiller --node-selectors beta.kubernetes.io/os=linux
 
-## Step Three: All Windows manifests or Helm charts should tolerate the Windows nodes
+## Step Four: All Windows manifests or Helm charts should tolerate the Windows nodes
 Now let's use Helm to deploy an application that tolerates those nodes -- an application container that requires a Windows node. If you want to see how a manifest might look, have a look at the `helloIIS.withtolerations.yaml` file in this repository. But for helm, let's deploy the exact same application (a simple Internet Information Services -- IIS -- instance), with a Windows node tolerance, by issuing the following command. From the root of this repository, type:
 
 	helm install --name IIS HelloIIS/hello-iis-chart
@@ -103,5 +103,5 @@ Here's the location for our tolerance in the helm chart HelloIIS/hello-iis-chart
 
 and you'll notice the same value in the HelloIIS/helloIIS.withtolerations.yaml file as well. Either will install precisely the same application. 
 
-## Step Four: Profit
+## Step Five: Profit
 Performing the following steps in the order specified above results in a good operational habit. The vast majority of helm charts that already exist and which you may want to use will install correctly with no modification onto the proper Linux nodes in a mixed cluster without a problem. You, working on new Windows-specific applications -- perhaps migrating your work to Kubernetes -- can specify the proper Windows node toleration in your chart or manifest in collaboration with your ops team. 
