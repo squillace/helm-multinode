@@ -12,7 +12,19 @@ This may take a moment, so take your time when registering.
 Then you're going to create your cluster and enable additional nodepools when doing so. 
 > **`NOTE:`** Even though the cluster you are creating is a Linux-node cluster, you're going to be creating the cluster to support multiple nodepools on VMSS (`--enable-vmss`) so that you can add a Windows nodepool in [HelloIIS](../HelloIIS/README.md).
 
-First, specify the values you want to use. It's recommended that you 
+First, specify the values you want to use. 
+
+    export RESOURCE_GROUP=<your resource group name>
+    export CLUSTER_NAME=<your cluster name>
+    export PASSWORD_WIN=<your windows password: reasonably complex>
+    export USERNAME=azureuser
+    export LOCATION=<your location for the deployment>
+    
+Second, create the resource group.
+
+    az group create -l $LOCATION -g $RESOURCE_GROUP
+
+Third, create the AKS cluster that supports nodepools.
 
     az aks create \
         -g $RESOURCE_GROUP \
@@ -27,7 +39,6 @@ First, specify the values you want to use. It's recommended that you
         --network-plugin azure \
         --kubernetes-version 1.13.5 
         --enable-addons monitoring
-
 
 
 ## Next Steps

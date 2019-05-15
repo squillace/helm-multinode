@@ -14,6 +14,12 @@ For people new to Kubernetes -- and that likely includes lots of Windows develop
 
 Here is the basic procedure to follow.
 
+## Step One: Add a Windows NodePool
+
+**`NOTE:`** the node pool name can only be six characters at the current time.
+
+	az aks nodepool add -g $RESOURCE_GROUP --cluster-name $CLUSTER_NAME --os-type Windows -n window -c 2 
+
 ## Step One: Ensure your cluster supports RBAC
 Helm should always be installed with Role Based Access Controls (RBAC) enabled and, depending on your environment, ensuring you follow the [security guidelines](https://helm.sh/docs/using_helm/#securing-your-helm-installation). This article focuses only on the RBAC portions of the installation; ensure you do the right thing in your own environment.
 
