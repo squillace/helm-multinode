@@ -62,7 +62,7 @@ Now any application that _should be scheduled on these nodes_ must specify their
 > **NOTE:** There is nothing special about the values used in the `windows=true:NoSchedule` taint. You can use `foo=bar:NoSchedule` here if you see fit (see the taints and tolerations documentation). However, these values are used to set a consistent example, which in operations is all you need. 
 
 ## Step Three: Install Helm -- or any other Linux app
-Once the Windows nodes have had the `windows=true:NoSchedule` taint applied, all charts or manifests that do not specify a node type are by default scheduled on Linux. This is the correct approach to multi-OS clusters. 
+Once the Windows nodes have had the `windows=true:NoSchedule` taint applied, all charts or manifests that do not "tolerate" Windows nodes are by default scheduled on Linux. This is the correct approach to multi-OS clusters. 
 
 Now, re-install the same application that failed before when it was scheduled for Windows nodes:
 
@@ -70,7 +70,7 @@ Now, re-install the same application that failed before when it was scheduled fo
 
 As you watch, you can see that it finds the correct Linux nodes now _every single time_. Try it. And try other applications such as mongodb, or the `stable/wordpress` application. They will schedule correctly.
 
-**`NOTE:`** If you attempt to install Helm on a mixed-OS cluster like this one, you are likely to fail for the same reason -- only by luck will Tiller be installed on a Linux node. But once the taint is applied to the Windows nodes, the `helm init` command will complete successfully as expected.
+**`NOTE:`** If you attempt to install Helm on a mixed-OS cluster like this one (before taints are applied), you are likely to fail for the same reason -- only by luck will Tiller be installed on a Linux node. But once the taint is applied to the Windows nodes, the `helm init` command will complete successfully as expected.
 
 ## Step Four: All Windows manifests or Helm charts should tolerate the Windows nodes
 Now let's use Helm to deploy an application that tolerates those nodes -- an application container that requires a Windows node. If you want to see how a manifest might look, have a look at the `helloIIS.withtolerations.yaml` file in this repository. But for helm, let's deploy the exact same application (a simple Internet Information Services -- IIS -- instance), with a Windows node tolerance, by issuing the following command. From the root of this repository, type:
@@ -119,3 +119,7 @@ and you'll notice the same value in the HelloIIS/helloIIS.withtolerations.yaml f
 Performing the following steps in the order specified above results in a good operational habit. The vast majority of helm charts that already exist and which you may want to use will install correctly with no modification onto the proper Linux nodes in a mixed cluster without a problem. You, working on new Windows-specific applications -- perhaps migrating your work to Kubernetes -- can specify the proper Windows node toleration in your chart or manifest in collaboration with your ops team. 
 
 For more details -- perhaps exhaustive -- about Windows on Kubernetes, see https://github.com/kubernetes/enhancements/blob/master/keps/sig-windows/20190103-windows-node-support.md#ensuring-os-specific-workloads-land-on-appropriate-container-host. 
+
+## Next Steps
+
+Now you're ready to use [Helm 3 against both Linux and Windows](../HelloHelm3/README.md). 
