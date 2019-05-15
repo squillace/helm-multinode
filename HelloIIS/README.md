@@ -104,3 +104,5 @@ and you'll notice the same value in the HelloIIS/helloIIS.withtolerations.yaml f
 
 ## Step Five: Profit
 Performing the following steps in the order specified above results in a good operational habit. The vast majority of helm charts that already exist and which you may want to use will install correctly with no modification onto the proper Linux nodes in a mixed cluster without a problem. You, working on new Windows-specific applications -- perhaps migrating your work to Kubernetes -- can specify the proper Windows node toleration in your chart or manifest in collaboration with your ops team. 
+
+For more details -- perhaps exhaustive -- about Windows on Kubernetes, see https://github.com/kubernetes/enhancements/blob/master/keps/sig-windows/20190103-windows-node-support.md#ensuring-os-specific-workloads-land-on-appropriate-container-host. 

@@ -36,18 +36,44 @@ Wait until the tiller pod is running, which you can check with
 
 A quick exercise of Helm 2 will give you an idea of a few features like install, upgrade, and uninstall. (For a complete list, enter `helm` with no options.)
 
-First, to easily see what is happening, if you have a console with either tabbing or Windows inside the console, set up four windows with each of the commands in one of the windows in a way that is viewable. You'll also need the `watch` command, or the equivalent, so find some time to install or locate it.
+First, to easily see what is happening, if you have a console with either tabbing or Windows inside the console, set up four windows with each of the commands in one of the windows in a way that is viewable. (You'll also need the `watch` command, or an equivalent, so find some time to install or locate it.)
 
-1. 
+1. `watch kubectl get po`
+2. `watch kubectl get svc`
+3. `watch helm list`
+4. `watch "kubectl get events --sort-by=.metadata.creationTimestamp | tail -n 10"` 
+
+It should look something like the following
 
 ![multi window watching](../media/multi-window-watch-voting.png)
 
+### Search and install a chart
+Let's use `helm search` to find a chart to install something we'd like. For example, mongodb is a common container to use, especially when developing apps prior to pushing to production (in which case the application will often use a native installation or a service like Azure CosmosDB with MongoDB support).
+
+Type and enter:
+
+    helm search mongodb
+
+and you should see something like:
+
+![helm search mongodb output](../media/helm-search-mongodb.png)
+
+Install a MongoDB service in the cluster with the following command:
+
+    helm install --name mongo stable/mongodb
+
+Not only will the output of Helm describe what was deployed, but the console windows should light up with activity. You should be able to watch both pods, services, and the helm release appear and slowly achieve the desired state. The events pane should display each event that occurs in the stages of completing the deployment, which helps understand the process that Kubernetes follows to ensure the configuration is running.
+
+When you're done examining the installation, you can delete it -- permanently -- with 
+
+    helm delete --purge mongo
+
+**`NOTE:`** You use the `--purge` option in order to remove the release from the operational history. Without it, the release will remain in history, so that it can be easily redeployed. 
 
 
-### Search for a chart
+### Install and modify release
 
-
-### Modify the release
+For this step, we'll use a local chart, which you can imagine you may have just created yourself. This sample is copied into this repository for convenience, but actually is the [Azure Vote](https://github.com/Azure-Samples/helm-charts/tree/master/chart-source/azure-vote) sample in the Azure documentation, derived from the Kubernetes Voting sample. It's not complex, but enables us to understand how to modify the release using Helm.
 
 ## Delete the release
 
