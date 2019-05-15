@@ -18,6 +18,8 @@ Here is the basic procedure to follow.
 
 ## Step One: Add a Windows NodePool
 
+
+
 **`NOTE:`** the node pool name can only be six characters at the current time.
 
 	az aks nodepool add -g $RESOURCE_GROUP --cluster-name $CLUSTER_NAME --os-type Windows -n window -c 2 
