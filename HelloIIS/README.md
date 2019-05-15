@@ -2,6 +2,8 @@
 
 This repository contains walkthroughs that illustrate some of the issues with Kubernetes Clusters that have mixed node types and shows methods of getting around them properly.
 
+## Manifests and Helm charts with Windows nodes
+
 At the moment, most cluster provisioning tools are creating clusters that by default use exclusively Linux nodes. Version 1.14 of Kubernetes, however, brought Windows nodes into the project officially. This poses one of those lovely problems that happens occasionally: What happens with all those Linux-centric manifests and Helm charts out there in the world? 
 
 Let's take Helm Charts as an example. The general issue is this: almost all the existing, community-created Helm charts and manifests do not specify a [nodeSelector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) or [nodeAffinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#node-affinity-beta-feature) by default, because they assumed Linux was the operating system on which the container would run. But Kubernetes doesn't schedule by operating system, it schedules by available resources. That means, all things being equal, that if you have a multi-OS cluster any random Helm chart has containers that are scheduled about half the time on Windows nodes. 
@@ -20,21 +22,26 @@ Here is the basic procedure to follow.
 
 	az aks nodepool add -g $RESOURCE_GROUP --cluster-name $CLUSTER_NAME --os-type Windows -n window -c 2 
 
-## Step One: Ensure your cluster supports RBAC
-Helm should always be installed with Role Based Access Controls (RBAC) enabled and, depending on your environment, ensuring you follow the [security guidelines](https://helm.sh/docs/using_helm/#securing-your-helm-installation). This article focuses only on the RBAC portions of the installation; ensure you do the right thing in your own environment.
+## Step Two: Experience the problem
+Let's install precisely the same application, which was built for Linux nodes -- the containers make calls to the Linux kernel. We know this will fail when executed on a Windows node, but what does this look like?
 
-Whilst some security configurations are for runtime operational security, RBAC itself should always be on as it is the basic Kubernetes context for any application running on shared Kubernetes clusters. 
+Assuming that you've navigated to the **`HelloIIS`** directory, try to install the same application:
 
-To ensure your cluster has RBAC enabled, type:
+	helm install --name voting ../HelloHelm2/azure-vote
 
-	kubectl api-versions | grep rbac
+Notice what happens. You might get lucky, and Kubernetes schedules the application for both linux nodes. Typically, however, one of the pods is scheduled on to a Windows node -- and a problem occurs that you can see in the events window. Notice the end of the string that indicates where the pod was assigned (Windows nodes!):
 
-and you should see the following:
+	5m54s       Normal    Scheduled            Pod          Successfully assigned default/vote-back-voting-687cc6466f-fgrvw to akswindow000000
+	5m54s       Normal    Scheduled            Pod          Successfully assigned default/vote-front-voting-8669dcf77f-4mdfr to akswindow000001
 
-	rbac.authorization.k8s.io/v1
-	rbac.authorization.k8s.io/v1beta1
+The pods themselves will never arrive at the **Running** state, but Kubernetes will continue to try for a long time.
 
-If you do not receive a response, you need to create a cluster with RBAC enabled. Really. Don't bother with any other kind of cluster.
+	vote-back-voting-687cc6466f-fgrvw    0/1     ImagePullBackOff   0          7m47s
+	vote-front-voting-8669dcf77f-4mdfr   0/1     ImagePullBackOff   0          7m47s
+
+Delete the application:
+
+	helm delete --purge voting
 
 ## Step Two:  All Windows Nodes should be given a taint value
 Now comes the fun. The problem stated above is that we want all charts or manifests to install resources on the appropriate node, which means that components that assume _but do not specifically state_ that they are Windows containers always should be scheduled on Linux nodes. 
@@ -55,9 +62,15 @@ Now any application that _should be scheduled on these nodes_ must specify their
 > **NOTE:** There is nothing special about the values used in the `windows=true:NoSchedule` taint. You can use `foo=bar:NoSchedule` here if you see fit (see the taints and tolerations documentation). However, these values are used to set a consistent example, which in operations is all you need. 
 
 ## Step Three: Install Helm -- or any other Linux app
-Once the Windows nodes have had the `windows=true:NoSchedule` taint applied, all charts or manifests that do not specify a node type are by default scheduled on Linux. This is the correct approach to multi-OS clusters. Let's demonstrate by installing Helm, which must install Tiller (the server-side component) on a Linux node -- of course. Now that Windows nodes have the specified taint, the `helm init` command installs Tiller by default on a Linux node. 
+Once the Windows nodes have had the `windows=true:NoSchedule` taint applied, all charts or manifests that do not specify a node type are by default scheduled on Linux. This is the correct approach to multi-OS clusters. 
 
+Now, re-install the same application that failed before when it was scheduled for Windows nodes:
 
+	helm install --name voting ../HelloHelm2/azure-vote
+
+As you watch, you can see that it finds the correct Linux nodes now _every single time_. Try it. And try other applications such as mongodb, or the `stable/wordpress` application. They will schedule correctly.
+
+**`NOTE:`** If you attempt to install Helm on a mixed-OS cluster like this one, you are likely to fail for the same reason -- only by luck will Tiller be installed on a Linux node. But once the taint is applied to the Windows nodes, the `helm init` command will complete successfully as expected.
 
 ## Step Four: All Windows manifests or Helm charts should tolerate the Windows nodes
 Now let's use Helm to deploy an application that tolerates those nodes -- an application container that requires a Windows node. If you want to see how a manifest might look, have a look at the `helloIIS.withtolerations.yaml` file in this repository. But for helm, let's deploy the exact same application (a simple Internet Information Services -- IIS -- instance), with a Windows node tolerance, by issuing the following command. From the root of this repository, type:
