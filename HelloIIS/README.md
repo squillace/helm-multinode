@@ -57,16 +57,7 @@ Now any application that _should be scheduled on these nodes_ must specify their
 ## Step Three: Install Helm -- or any other Linux app
 Once the Windows nodes have had the `windows=true:NoSchedule` taint applied, all charts or manifests that do not specify a node type are by default scheduled on Linux. This is the correct approach to multi-OS clusters. Let's demonstrate by installing Helm, which must install Tiller (the server-side component) on a Linux node -- of course. Now that Windows nodes have the specified taint, the `helm init` command installs Tiller by default on a Linux node. 
 
-First, create the service account and role binding for Tiller to be able to deploy across the entire cluster. (If you want to narrow the power of your Helm instance, again see the [security guidelines](https://helm.sh/docs/using_helm/#securing-your-helm-installation).)
 
-Type and enter:
-
-	kubectl -n kube-system create serviceaccount tiller
-	kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-
-Then, to install Tiller only on a Linux node, use the following command:
-
-	helm init --service-account=tiller --node-selectors beta.kubernetes.io/os=linux
 
 ## Step Four: All Windows manifests or Helm charts should tolerate the Windows nodes
 Now let's use Helm to deploy an application that tolerates those nodes -- an application container that requires a Windows node. If you want to see how a manifest might look, have a look at the `helloIIS.withtolerations.yaml` file in this repository. But for helm, let's deploy the exact same application (a simple Internet Information Services -- IIS -- instance), with a Windows node tolerance, by issuing the following command. From the root of this repository, type:

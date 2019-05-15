@@ -36,7 +36,9 @@ Wait until the tiller pod is running, which you can check with
 
 A quick exercise of Helm 2 will give you an idea of a few features like install, upgrade, and uninstall. (For a complete list, enter `helm` with no options.)
 
-First, to easily see what is happening, if you have a console with either tabbing or Windows inside the console, set up four windows with each of the commands in one of the windows in a way that is viewable, like so:
+First, to easily see what is happening, if you have a console with either tabbing or Windows inside the console, set up four windows with each of the commands in one of the windows in a way that is viewable. You'll also need the `watch` command, or the equivalent, so find some time to install or locate it.
+
+1. 
 
 ![multi window watching](../media/multi-window-watch-voting.png)
 
