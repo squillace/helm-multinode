@@ -86,7 +86,7 @@ After the IP address appears it's right there (remember this chart deploys to po
 
 
 ## Helm 3 with charts
-The second thing that is different with Helm 3 versus Helm 2 matters quite a bit. Helm 2 had a metadata value of `apiVersion` in the Chart.yaml file of a chart, but as it was optional Helm 2 did not enforce it. Forward-looking charts included this value anyway, such as the the example in https://github.com/helm/charts/blob/340194ff5bac4dba78fdfd7e8562728dcf9ddf45/stable/minio/Chart.yaml#L1: there it is, right there. This means that you can install minio right away.
+The second thing that is different with Helm 3 versus Helm 2 matters quite a bit. Helm 2 had a metadata value of `apiVersion` in the Chart.yaml file of a chart, but as it was optional Helm 2 did not enforce it. Forward-looking charts included this value anyway, such as the the example in https://github.com/helm/charts/blob/340194ff5bac4dba78fdfd7e8562728dcf9ddf45/stable/minio/Chart.yaml#L1: there it is, right there. This means that you can install Minio right away.
 
     helm3 install minio stable/minio
 
