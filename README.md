@@ -9,13 +9,3 @@ This repository has a number of walkthroughs intended to help you get up to spee
 3. The third directory, **`HelloIIS`**, begins by adding a Windows NodePool to the AKS cluster, and then introduces both manifests and Helm charts used with Windows containers, explains the differences between Windows and Linux applications, and shows how the cluster must be operated to ensure a good working experience with both types of applications. 
 3. The fourth directory, **`HelloHelm3`**, describes the proper installation of a canary build of Helm 3 so that it does not collide with the current version of Helm 2, and illustrates the basic features of Helm 3 with the same applications used in **`HelloHelm2`** and **`HelloIIS`**. 
 
-
-
-1. set up AKS linux cluster
-2. Set up windows nodepool
-3. ensure RBAC
-4. apply the taints
-5. install Helm 2 in default role but on windows cluster
-6. do the helm 2 dance: searching, installation, from communal and git cloned repos. upgrade to scale. delete. install neo4j, mongodb, and so on.
-7. do the helm2 dance against windows workloads. discuss the taint; discuss the tolerations and what failures look like. Helm2 search, install, and so on.
-8. move to helm3 dance. install on linux or mac (https://storage.googleapis.com/kubernetes-helm/helm-dev-v3-<darwin|linux|windows>-amd64.tar.gz)
