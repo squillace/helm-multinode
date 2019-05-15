@@ -70,13 +70,49 @@ When you're done examining the installation, you can delete it -- permanently --
 
 **`NOTE:`** You use the `--purge` option in order to remove the release from the operational history. Without it, the release will remain in history, so that it can be easily redeployed. 
 
-
 ### Install and modify release
 
 For this step, we'll use a local chart, which you can imagine you may have just created yourself. This sample is copied into this repository for convenience, but actually is the [Azure Vote](https://github.com/Azure-Samples/helm-charts/tree/master/chart-source/azure-vote) sample in the Azure documentation, derived from the Kubernetes Voting sample. It's not complex, but enables us to understand how to modify the release using Helm.
 
-## Delete the release
+Assuming you are in the /HelloHelm2 directory (the location of this README), type
 
+    helm install --name voting azure-vote
+
+Notice in the console window that lists the services that the `azure-vote-front` service is initially `Pending` an external IP. Wait until the IP is available, and then copy and paste that IP into a browser. It should look like this:
+
+![The IP rendered in Vivaldi](../media/azure-voting-vivaldi.png)
+
+Now this is a very simple application, but we can modify it all we want. We can update the configuration by scaling it using the --set feature:
+
+    helm upgrade voting azure-vote --set replicaCount=4
+
+This merely scales out the front end pod so that the service has more capacity, it's not really a change of the artifacts running. But you can modify any value in a chart that is exposed in the values.yaml file. For example, let's modify the `Cats` and `Dogs` values we are voting on. Type and enter:
+
+    helm upgrade voting azure-vote --set value1=apples,value2=oranges
+
+Two things happen, if you watch the console values. First, you'll notice that the number of pods acting as the frontend service return to the original chart value of one. Second, we dynamically updated the values you are voting on:
+
+![helm update changes values](../media/helm-update-changes-values.png)
+
+## Understanding release history and deleting the release
+
+Before we delete the application, we examine our release history:
+
+    helm history voting
+    
+which should appear something like this
+
+    REVISION	UPDATED                 	STATUS    	CHART           	DESCRIPTION     
+    1       	Tue May 14 20:47:36 2019	SUPERSEDED	azure-vote-0.1.0	Install complete
+    2       	Tue May 14 20:58:21 2019	SUPERSEDED	azure-vote-0.1.0	Upgrade complete
+    3       	Tue May 14 20:58:57 2019	SUPERSEDED	azure-vote-0.1.0	Upgrade complete
+    4       	Tue May 14 21:01:36 2019	DEPLOYED  	azure-vote-0.1.0	Upgrade complete
+
+You can now experiment with any of the helm commands involving releases, in particular, `helm rollback`. 
+
+Then delete ALL releases at the same time, with
+
+    helm delete --purge voting
 
 ## Next Steps
-Once you have a cluster created, and you'v
+Once you have a cluster created, and you've installed and used Helm, you can browse all the easily available applications you can install and use at https://hub.helm.sh. Then move on to [HelloIIS](../HelloIIS/README.md).
