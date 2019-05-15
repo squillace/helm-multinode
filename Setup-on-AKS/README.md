@@ -14,6 +14,8 @@ Then you're going to create your cluster and enable additional nodepools when do
 
 First, specify the values you want to use. 
 
+**`IMPORTANT:` You are going to want to either use the same session so that you can reuse the values you specified here, or write them down somewhere so that you can use them again.
+
     export RESOURCE_GROUP=<your resource group name>
     export CLUSTER_NAME=<your cluster name>
     export PASSWORD_WIN=<your windows password: reasonably complex>

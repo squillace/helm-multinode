@@ -24,6 +24,8 @@ Here is the basic procedure to follow.
 
 	az aks nodepool add -g $RESOURCE_GROUP --cluster-name $CLUSTER_NAME --os-type Windows -n window -c 2 
 
+This will take a few minutes.
+
 ## Step Two: Experience the problem
 Let's install precisely the same application, which was built for Linux nodes -- the containers make calls to the Linux kernel. We know this will fail when executed on a Windows node, but what does this look like?
 
