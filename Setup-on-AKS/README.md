@@ -6,7 +6,9 @@ You're going to follow the steps located in this document: https://docs.microsof
 1. https://docs.microsoft.com/en-us/azure/aks/use-multiple-node-pools#before-you-begin
 2. https://docs.microsoft.com/en-us/azure/aks/use-multiple-node-pools#limitations
 
-This may take a moment, so take your time when registering.
+This may take a moment, so take your time when registering. 
+
+https://github.com/Azure/aks-windows-private-preview/blob/master/subscription-setup.md 
 
 ## Create your AKS cluster
 Then you're going to create your cluster and enable additional nodepools when doing so. 
