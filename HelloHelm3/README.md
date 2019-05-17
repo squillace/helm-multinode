@@ -19,7 +19,7 @@ Every time I use the **`helm3`** command, it now specifies the appropriate $HELM
 
 Initialize Helm 3 with:
 
-    helm init
+    helm3 init
 
 and the output -- using the alias values -- should look like:
 
