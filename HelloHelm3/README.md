@@ -1,4 +1,4 @@
-## Helm 3 pre-alpha
+## Helm 3 alpha
 
 ## Overview
 
