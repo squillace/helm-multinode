@@ -2,6 +2,10 @@
 
 This directory helps you install and use Helm 2 in a basic way if you're not already familiar with it. (If you are, install Helm 2 with the directions below and move on to [HelloIIS](../HelloIIS/README.md) to create a Windows nodepool and learn about Helm issues with mixed-operating-system clusters.)
 
+The following animated GIF shows the steps that you'll take following this article along with some variations.
+
+![video of the readme instructions](hellohelm2.gif)
+
 ## Check for RBAC support
 Azure Kubernetes Service (AKS) creates clusters that have RBAC on by default. However, as this set of walkthroughs will work anywhere, let's first ensure that we have RBAC turned on. Run
 

@@ -2,6 +2,10 @@
 
 ## Overview
 
+The following animated GIF shows the steps you'll take in this article, with some extra variations. 
+
+![video of the readme instructions](hellohelm3.gif)
+
 ## Installation
 There are canary releases for Linux, Mac, and Windows currently available:
 

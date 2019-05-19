@@ -2,6 +2,10 @@
 
 This repository contains walkthroughs that illustrate some of the issues with Kubernetes Clusters that have mixed node types and shows methods of getting around them properly.
 
+The following is an animated GIF that demonstrates the steps you'll take in this article, with a few variations.
+
+![video of the steps](helloIIS.gif)
+
 ## Manifests and Helm charts with Windows nodes
 
 At the moment, most cluster provisioning tools are creating clusters that by default use exclusively Linux nodes. Version 1.14 of Kubernetes, however, brought Windows nodes into the project officially. This poses one of those lovely problems that happens occasionally: What happens with all those Linux-centric manifests and Helm charts out there in the world? 
