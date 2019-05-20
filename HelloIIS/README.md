@@ -60,6 +60,10 @@ Here's how this works. First, apply a taint for Windows nodes using the `beta.ku
 
 	kubectl get nodes -l beta.kubernetes.io/os=windows -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | xargs -I {} kubectl taint nodes {} windows=true:NoSchedule
 
+If you are using PowerShell you can use the following command as an alternative.
+
+	kubectl get nodes -l beta.kubernetes.io/os=windows -o jsonpath='{range .items[*]}{.metadata.name}{\"\n\"}' | ForEach-Object { kubectl taint nodes $_ windows=true:NoSchedule }	
+
 The result should look like:
 
 	node/akswindow000000 tainted
