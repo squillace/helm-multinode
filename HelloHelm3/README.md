@@ -9,9 +9,9 @@ The following animated GIF shows the steps you'll take in this article, with som
 ## Installation
 There are canary releases for Linux, Mac, and Windows currently available:
 
-- Linux: `curl https://storage.googleapis.com/kubernetes-helm/helm-dev-v3-linux-amd64.tar.gz --output helm3.linux.tar.gz`
-- MacOS: `curl https://storage.googleapis.com/kubernetes-helm/helm-dev-v3-darwin-amd64.tar.gz --output helm3.darwin.tar.gz`
-- Windows: `curl https://storage.googleapis.com/kubernetes-helm/helm-dev-v3-windows-amd64.tar.gz --output helm3.windows.tar.gz`
+- Linux: `https://get.helm.sh/helm-v3.0.0-alpha.1-linux-amd64.tar.gz`
+- MacOS: `https://get.helm.sh/helm-v3.0.0-alpha.1-darwin-amd64.tar.gz`
+- Windows: `https://get.helm.sh/helm-v3.0.0-alpha.1-windows-amd64.zip`
 
 For your operating system, you'll need to put it in your path but with the name `helm3`, and make an alias to it that appends a key value, the "--home" option.
 
@@ -38,7 +38,7 @@ and the output -- using the alias values -- should look like:
     $HELM_HOME has been configured at /home/ralph/.helm3.
     Happy Helming!
 
-Now your machine is ready to take Helm 3 for a test drive. Remember, Tiller is still installed, which you can test by entering `kubectl get po -l app=helm,name=tiller -n kube-system`. However, because one of the biggest improvements in Helm 3 is that it doesn't have a server-side component, you can use Helm 2 and Helm 3 in the same cluster. Just remember that neither will know anything about the releases of the other. 
+Now your machine is ready to take Helm 3 for a test drive. Remember, if you had installed Helm 2 **Tiller** is still installed, which you can test by entering `kubectl get po -l app=helm,name=tiller -n kube-system`. However, because one of the biggest improvements in Helm 3 is that it doesn't have a server-side component, you can use Helm 2 and Helm 3 in the same cluster. Just remember that neither will know anything about the releases of the other. 
 
 ## Using Helm 3 for the same work 
 
