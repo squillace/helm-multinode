@@ -58,7 +58,7 @@ How do we do that? By using [taints and tolerations](https://kubernetes.io/docs/
 
 Here's how this works. First, apply a taint for Windows nodes using the `beta.kubernetes.io/os` label, as follows:
 
-	kubectl get nodes -l beta.kubernetes.io/os=windows -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | xargs -I {} kubectl taint nodes {} windows=true:NoSchedule
+	kubectl get nodes -l beta.kubernetes.io/os=windows -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | xargs -I XX kubectl taint nodes XX windows=true:NoSchedule
 
 If you are using PowerShell you can use the following command as an alternative.
 
